@@ -7,25 +7,42 @@ import EditPost from "./pages/EditPost";
 import PostPage from "./pages/PostPage";
 import PostsPage from "./pages/PostsPage";
 import MainPage from "./pages/MainPage";
+import {ToastContainer} from "react-toastify"
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth, getMe } from "./store/slices/authSlice";
 
 
 
 function App() {
+  const dispatch = useDispatch()
+  const isAuth = useSelector(checkAuth)
+
+  useEffect(()=>{
+      dispatch(getMe())
+  },[dispatch])
   return (
     
         <Layout>
           
           <Routes>
-            <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="*" element={<h1>404 not faund</h1>} />
+
+            {
+              isAuth ? <>
+              <Route path="/" element={<MainPage />} />
             <Route path="/addpost" element={<AddPost />} />
             <Route path="/editpost:id" element={<EditPost />} />
             <Route path="/post:id" element={<PostPage />} />
             <Route path="/posts" element={<PostsPage />} />
-            <Route path="*" element={<h1>404 not faund</h1>} />
+              </>
+            : null
+            }
 
           </Routes>
+          <ToastContainer position="bottom-right" />
         </Layout>
         
       

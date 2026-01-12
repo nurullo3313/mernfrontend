@@ -1,35 +1,79 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { checkAuth, login } from "../store/slices/authSlice";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const { loading, status } = useSelector((state) => state.auth);
+  const isAuth =  useSelector(checkAuth)
+  const navgate = useNavigate()
+  
+  useEffect(() => {
+    if (status) {
+      toast(status);
+    }
+    if(isAuth){
+      navgate("/")
+    }
+  }, [status, navgate,isAuth]);
+
+  function loginUser() {
+    try {
+      dispatch(login({ username, password }));
+      
+      setUserName("");
+      setPassword("");
+   
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <div className='flex justify-center items-center h-200 '>
+    <div className="flex justify-center items-center h-200 ">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="bg-amber-500 w-1/4 p-7 rounded-4xl"
+      >
+        <h1 className="text-center text-3xl font-semibold">Авторизатция</h1>
+        <label htmlFor="">
+          Username :{" "}
+          <input
+            type="text"
+            placeholder="username"
+            value={username}
+            className="bg-amber-50 text-1xl py-0.5 px-4 rounded-xl outline-none  mt-1 w-80"
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </label>
+        <label htmlFor="">
+          password :{" "}
+          <input
+            type="password"
+            placeholder="password"
+            value={password}
+            className="bg-amber-50 text-1xl py-0.5 px-4 rounded-xl outline-none  mt-1 w-80"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
 
-    <form onSubmit={(e)=>e.preventDefault()}
-    className='bg-amber-500 w-1/4 p-7 rounded-4xl'
-    >
-
-      <h1 className='text-center text-3xl font-semibold'>Авторизатция</h1>
-      <label htmlFor="">
-        Username : <input type="text" placeholder='username'
-          className='bg-amber-50 text-1xl py-0.5 px-4 rounded-xl outline-none  mt-1 w-80'
-        />
-      </label>
-      <label htmlFor="">
-        password : <input type="password" placeholder='password'
-          className='bg-amber-50 text-1xl py-0.5 px-4 rounded-xl outline-none  mt-1 w-80'
-        />
-      </label>
-
-      <div className='flex justify-center flex-col items-center  mt-2'>
-        <button 
-        className='py-1 px-4 bg-black text-amber-50 w-80 text-xl rounded-2xl hover:bg-amber-50 hover:text-amber-500 cursor-pointer '
-        >Войти</button>
-        <Link to="/register"
-        className='mt-2 text-blue-950'
-        >У меня нет аккаунт!</Link>
-      </div>
-    </form>
-      </div>
-  )
+        <div className="flex justify-center flex-col items-center  mt-2">
+          <button
+            onClick={loginUser}
+            className="py-1 px-4 bg-black text-amber-50 w-80 text-xl rounded-2xl hover:bg-amber-50 hover:text-amber-500 cursor-pointer "
+          >
+            Войти
+          </button>
+          <Link to="/register" className="mt-2 text-blue-950">
+            У меня нет аккаунт!
+          </Link>
+        </div>
+      </form>
+    </div>
+  );
 }
