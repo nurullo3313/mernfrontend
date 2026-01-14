@@ -26,13 +26,13 @@ function App() {
         <Layout>
           
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="*" element={<h1>404 not faund</h1>} />
 
             {
               isAuth ? <>
-              <Route path="/" element={<MainPage />} />
+              <Route path="/main" element={<MainPage />} />
             <Route path="/addpost" element={<AddPost />} />
             <Route path="/editpost:id" element={<EditPost />} />
             <Route path="/post:id" element={<PostPage />} />

@@ -18,7 +18,7 @@ export default function Navbar() {
     dispatch(logout())
     window.localStorage.removeItem("token")
     toast("Вы вышли из систему")
-    navigate("/login")
+    navigate("/")
   }
   
 
@@ -28,7 +28,7 @@ export default function Navbar() {
        {
         isAuth &&
          <ul className='flex gap-6 text-2xl'>
-            <li className=' text-zinc-950 hover:text-amber-50'><NavLink to={"/"} style={({isActive})=> isActive ? activePage : undefined}>Гаваная</NavLink></li>
+            <li className=' text-zinc-950 hover:text-amber-50'><NavLink to={"/main"} style={({isActive})=> isActive ? activePage : undefined}>Гаваная</NavLink></li>
             <li className='text-zinc-950 hover:text-amber-50'><NavLink to={"/posts"} style={({isActive})=> isActive ? activePage : undefined}>Мои посты</NavLink></li>
             <li className='text-zinc-950 hover:text-amber-50'><NavLink to={"/addpost"} style={({isActive})=> isActive ? activePage : undefined}>Добавыт пост</NavLink></li>
         </ul>
@@ -40,7 +40,7 @@ export default function Navbar() {
           onClick={logoutHendler}
         >Выйти</button>
         :
-        <Link to={"/login"} className='bg-black text-amber-50 py-2 px-4 rounded-2xl hover:bg-amber-50 hover:text-black cursor-pointer'>Войти</Link>
+        <Link to={"/"} className='bg-black text-amber-50 py-2 px-4 rounded-2xl hover:bg-amber-50 hover:text-black cursor-pointer'>Войти</Link>
       }
    </nav>
   )

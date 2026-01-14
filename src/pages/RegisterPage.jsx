@@ -9,24 +9,35 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const { loading, status} = useSelector((state) => state.auth);
+  const { loading, status ,error} = useSelector((state) => state.auth);
   const isAuth = useSelector(checkAuth)
   const navigate = useNavigate()
+
+  const usernameError = error?.username;
+  const passwordError = error?.password;
 
   useEffect(()=>{
     if(status){
       toast(status)
     }
+    if(usernameError){
+      toast(usernameError)
+    }
+    if(passwordError){
+      toast(passwordError)
+    }
     if(isAuth){
-      navigate("/")
+      navigate("/main")
     }
   },[status])
 
   function registerUser() {
     try {
       dispatch(register({ username, password }));
-      setUserName("")
-      setPassword("")
+      if(isAuth){
+        setUserName("")
+        setPassword("")
+      }
       
     } catch (error) {
       console.log(error);

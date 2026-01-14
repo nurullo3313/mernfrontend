@@ -9,26 +9,35 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const { loading, status } = useSelector((state) => state.auth);
-  const isAuth =  useSelector(checkAuth)
-  const navgate = useNavigate()
-  
+  const { loading, status, error } = useSelector((state) => state.auth);
+  const isAuth = useSelector(checkAuth);
+  const navigate = useNavigate();
+
+  const usernameError = error?.username;
+  const passwordError = error?.password;
+
   useEffect(() => {
     if (status) {
       toast(status);
     }
-    if(isAuth){
-      navgate("/")
+    if (usernameError) {
+      toast(usernameError);
     }
-  }, [status, navgate,isAuth]);
+    if (passwordError) {
+      toast(passwordError);
+    }
+    if (isAuth) {
+      navigate("/main");
+    }
+  }, [status, navigate, isAuth]);
 
   function loginUser() {
     try {
       dispatch(login({ username, password }));
-      
-      setUserName("");
-      setPassword("");
-   
+      if (isAuth) {
+        setUserName("");
+        setPassword("");
+      }
     } catch (error) {
       console.log(error);
     }
