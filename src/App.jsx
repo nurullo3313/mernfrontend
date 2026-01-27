@@ -35,7 +35,7 @@ function App() {
               <Route path="/main" element={<MainPage />} />
             <Route path="/addpost" element={<AddPost />} />
             <Route path="/editpost:id" element={<EditPost />} />
-            <Route path="/post:id" element={<PostPage />} />
+            <Route path="/post/:id" element={<PostPage />} />
             <Route path="/posts" element={<PostsPage />} />
               </>
             : null

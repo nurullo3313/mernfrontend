@@ -2,13 +2,21 @@ import React from 'react'
 import { FaRegEye } from "react-icons/fa";
 import { TfiCommentAlt } from "react-icons/tfi";
 import moment from "moment"
+import {useNavigate} from "react-router-dom"
 
 export default function PostItem({post}) {
 
-    const {username, title, text, imgUrl,comments,view, createdAt} = post
+  const naviagte = useNavigate()
+
+    const {username, title, text, imgUrl,comments,view, createdAt , _id} = post
+
+    
     
   return (
-    <div className="mx-auto my-4 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-purple-200">
+    <div 
+    onClick={()=>naviagte(`/post/${_id}`)}
+
+    className="cursor-pointer mx-auto my-4 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-purple-200">
       {/* Header */}
       <div className="flex items-center gap-3 sm:gap-4 px-4 py-3 sm:px-5 sm:py-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10">
         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-md flex-shrink-0">

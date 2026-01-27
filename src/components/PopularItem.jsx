@@ -58,7 +58,9 @@ export default function PopularItem({post}) {
               <span className="hidden xs:inline">Коммент</span>
               <span className="xs:hidden">Комм</span>
             </button>
-            
+            <button>
+              
+            </button>
           </div>
         </div>
   )

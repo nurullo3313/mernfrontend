@@ -4,21 +4,24 @@ import { getAllPost } from '../store/slices/postSlice'
 import { toast } from 'react-toastify'
 import PostItem from '../components/PostItem'
 import PopularItem from '../components/PopularItem'
+import { useNavigate , useLocation } from 'react-router-dom'
 
 export default function MainPage() {
 
   const dispatch = useDispatch()
   const {status, post, popularPosts } =  useSelector(state => state.post)
+  const navigate =  useNavigate()
+  const lacation  = useLocation()
 
   useEffect(()=>{
     dispatch(getAllPost())
-  },[dispatch])
-
-  useEffect(()=>{
-      if(status){
+     if(status){
       toast(status)
     }
-  },[status])
+    
+  },[lacation.pathname])
+
+
 
   
   return (

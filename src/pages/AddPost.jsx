@@ -13,25 +13,25 @@ export default function AddPost() {
   const [imgUrl, setImgUrl] = useState("");
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (status) {
-      toast(status);
-    }
-  }, [status]);
+  
+
+  
 
   function addPost() {
   const formData = new FormData();
   formData.append("title", title);
   formData.append("text", text);
   formData.append("image", imgUrl); 
-
+  
   dispatch(createPost(formData));
-
+  if (status) {
+    toast(status);
+  }
+  navigate("/main")
   setText("");
   setTitle("");
   setImgUrl("");
-  navigate("/main")
-  }
+}
 
   return (
     <form

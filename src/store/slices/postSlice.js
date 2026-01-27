@@ -3,8 +3,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 
 const initialState = {
-  post: null,
-  popularPosts: null,
+  post: [],
+  popularPosts: [],
   loading: false,
   error: null,
   status: null,
@@ -35,6 +35,19 @@ export const getAllPost = createAsyncThunk(
   },
 );
 
+export const deletePost = createAsyncThunk(
+  "post/deletePost",
+  async (id,{rejectWithValue})=>{
+      try {
+          const {data} = await axios.delete(`/post/deletepost/${id}` , id)
+
+          return data
+      } catch (error) {
+        return rejectWithValue(error.response?.msg) 
+      }
+  }
+)
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -63,8 +76,8 @@ export const postSlice = createSlice({
       .addCase(getAllPost.pending, (state) => {
         state.error = null 
         state.loading = true
-        state.popularPosts = null
-        state.post = null
+        state.popularPosts = []
+        state.post = []
       })
       .addCase(getAllPost.fulfilled, (state, action) => {
         state.error = null
@@ -77,9 +90,31 @@ export const postSlice = createSlice({
       .addCase(getAllPost.rejected, (state, action) => {
         state.error = null
         state.loading = false
-        state.popularPosts = null
-        state.post = null
+        state.popularPosts = []
+        state.post = []
         state.status = action.payload.msg
+      })
+
+
+
+      .addCase(deletePost.pending, (state) => {
+        state.error = null 
+        state.loading = true
+        state.popularPosts = []
+        state.post = []
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.error = null
+        state.loading = false
+        state.post = state.post.filter(post=> post?._id !== action.payload?._id )
+        state.status = action.payload.msg
+
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        state.error = null
+        state.loading = false
+    
+        state.post = []
       });
   },
 });
